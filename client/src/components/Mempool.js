@@ -5,7 +5,9 @@ import Navigation from './Navbar';
 import RegularTx from './Transactions/RegularTx';
 import BadgeTx from './Transactions/BadgeTx';
 
-const POLL_INTERVAL_MS = 12000;
+import { API_URL, API_VERSION } from '../constants';
+
+const POLL_INTERVAL_MS = 5000;
 
 class Mempool extends Component {
   constructor() {
@@ -24,7 +26,7 @@ class Mempool extends Component {
   }
 
   fetchMempoolData = () => {
-    fetch('http://localhost:3001/api/v0/p2p/mempool')
+    fetch(`${API_URL}/api/${API_VERSION}/p2p/mempool`)
       .then((response) => response.json())
       .then((data) =>
         this.setState({

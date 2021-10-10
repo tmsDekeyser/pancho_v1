@@ -93,7 +93,7 @@ class P2pServer {
     if (!this.sockets.find((s) => s === socket)) {
       this.sockets.push(socket);
       console.log('Socket connected');
-      messageHandler(this.socket);
+      messageHandler(this, socket);
 
       sendChain(this, socket);
     }

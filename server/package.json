@@ -5,8 +5,8 @@
   "main": "src/app.js",
   "scripts": {
     "server": "node src/app.js",
-    "peer": "HTTP_PORT=3002 P2P_PORT=5002 node app.js",
-    "peer2": "HTTP_PORT=3003 P2P_PORT=5003 node app.js"
+    "peer": "HTTP_PORT=3002 P2P_PORT=5002 PEER=true node src/app.js",
+    "peer2": "HTTP_PORT=3003 P2P_PORT=5003 PEER=true node src/app.js"
   },
   "repository": {
     "type": "git",

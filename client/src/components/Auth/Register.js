@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
+import { API_URL, API_VERSION } from '../../constants';
 
 class Register extends Component {
   constructor() {
@@ -31,7 +32,7 @@ class Register extends Component {
       return;
     }
 
-    fetch('http://localhost:3001/api/v0/auth/register', {
+    fetch(`${API_URL}/api/${API_VERSION}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

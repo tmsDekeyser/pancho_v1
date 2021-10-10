@@ -9,9 +9,11 @@ const errorHandler = require('./middleware/error');
 
 const { p2pServer } = require('./local/local-copy');
 //MongoDB database to store user profiles (and keys in the demo, encrypted)
-const connectDB = require('../config/db.js');
+if (!process.env.PEER) {
+  const connectDB = require('../config/db.js');
 
-connectDB();
+  connectDB();
+}
 
 //Route files
 const walletRoutes = require('./routes/wallet');

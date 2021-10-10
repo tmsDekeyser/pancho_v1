@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { API_URL, API_VERSION } from '../../constants';
 import BadgeList from './BadgeList';
 
 class Wallet extends Component {
@@ -12,7 +13,7 @@ class Wallet extends Component {
   componentDidMount() {
     const token = localStorage.getItem('token');
 
-    fetch(`http://localhost:3001/api/v0/wallet/wallet-info`, {
+    fetch(`${API_URL}/api/${API_VERSION}/wallet/wallet-info`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

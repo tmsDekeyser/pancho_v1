@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { withRouter } from 'react-router';
+import { API_URL, API_VERSION } from '../../constants';
 
 class SaveContact extends Component {
   constructor() {
@@ -20,7 +21,7 @@ class SaveContact extends Component {
     const { alias, address } = this.state;
     const token = localStorage.getItem('token');
 
-    fetch('http://localhost:3001/api/v0/wallet/contacts', {
+    fetch(`${API_URL}/api/${API_VERSION}/wallet/contacts`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

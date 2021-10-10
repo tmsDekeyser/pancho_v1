@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+import { API_URL, API_VERSION } from '../../constants';
 
 class Nomination extends Component {
   constructor() {
@@ -10,7 +11,7 @@ class Nomination extends Component {
   componentDidMount() {
     const token = localStorage.getItem('token');
 
-    fetch('http://localhost:3001/api/v0/auth/me', {
+    fetch(`${API_URL}/api/${API_VERSION}/auth/me`, {
       headers: {
         authorization: `Bearer ${token}`,
       },
@@ -22,7 +23,7 @@ class Nomination extends Component {
   decideNomination = (accept) => {
     const token = localStorage.getItem('token');
 
-    fetch('/api/v0/p2p/nomination-decision', {
+    fetch(`/api/${API_VERSION}/p2p/nomination-decision`, {
       method: 'POST',
       headers: {
         authorization: `Bearer ${token}`,

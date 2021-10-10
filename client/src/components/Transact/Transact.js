@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import Navigation from '../Navbar';
 import ConductTransaction from './ConductTransaction';
 import ConductNomination from './ConductNomination';
+import { API_VERSION } from '../../constants';
 
 class Transact extends Component {
   state = { isAuthenticated: true, badges: [] };
@@ -14,7 +15,7 @@ class Transact extends Component {
     if (!token) {
       this.setState({ isAuthenticated: false });
     } else {
-      fetch('api/v0/p2p/blocks')
+      fetch(`api/${API_VERSION}/p2p/blocks`)
         .then((res) => res.json())
         .then((data) => this.setState({ badges: Object.values(data[0].data) }));
     }

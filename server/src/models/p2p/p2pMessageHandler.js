@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 
 const MESSAGE_TYPES = {
   chain: 'CHAIN',
@@ -10,7 +11,10 @@ const MESSAGE_TYPES = {
   peers: 'PEERS',
 };
 
+const { sendPeers } = require('./p2pSendMessage');
+
 const { IP_PEER } = require('../../../config/config');
+const P2P_PORT = process.env.P2P_PORT || 5001;
 
 function messageHandler(p2pServer, socket) {
   socket.on('message', (message) => {
@@ -21,7 +25,7 @@ function messageHandler(p2pServer, socket) {
         p2pServer.blockchain.replaceChain(data.chain);
         //now you are also writing when the chain is not valid
         fs.writeFile(
-          './local/blockchainJSON.txt',
+          path.join(__dirname, `../../local/blockchainJSON_${P2P_PORT}.txt`),
           JSON.stringify(p2pServer.blockchain),
           (err) => {
             if (err) throw err;
@@ -52,7 +56,7 @@ function messageHandler(p2pServer, socket) {
           p2pServer.peers.push(fullIp);
         }
         p2pServer.sockets.forEach((socket) =>
-          p2pServer.sendPeers(socket, p2pServer.peers)
+          sendPeers(socket, p2pServer.peers)
         );
         break;
       case MESSAGE_TYPES.peers:

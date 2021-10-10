@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
 import Block from './Block';
 import Navigation from '../Navbar';
+import { API_URL, API_VERSION } from '../../constants';
 
 const BLOCKS_PER_PAGE = 5;
 
@@ -12,7 +13,7 @@ class Blocks extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:3001/api/v0/p2p/blocks')
+    fetch(`${API_URL}/api/${API_VERSION}/p2p/blocks`)
       .then((response) => response.json())
       .then((data) => this.setState({ chain: data, pageNumber: 1 }));
   }

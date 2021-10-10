@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import { API_URL, API_VERSION } from '../../constants';
 
 export default class ConductTransaction extends Component {
   constructor() {
@@ -19,7 +20,7 @@ export default class ConductTransaction extends Component {
     const { recipient, amount } = this.state;
     const token = localStorage.getItem('token');
 
-    fetch('http://localhost:3001/api/v0/p2p/transact', {
+    fetch(`${API_URL}/api/${API_VERSION}/p2p/transact`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

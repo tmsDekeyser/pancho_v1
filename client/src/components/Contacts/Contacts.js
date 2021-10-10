@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import Navigation from '../Navbar';
 import SaveContact from './SaveContact';
 import { ContactList } from './ContactList';
+import { API_URL, API_VERSION } from '../../constants';
 
 export default class Contacts extends Component {
   constructor() {
@@ -16,7 +17,7 @@ export default class Contacts extends Component {
     if (!token) {
       this.setState({ isAuthenticated: false });
     } else {
-      fetch(`http://localhost:3001/api/v0/wallet/contacts`, {
+      fetch(`${API_URL}/api/${API_VERSION}/wallet/contacts`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

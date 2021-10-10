@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
+import { API_URL, API_VERSION } from '../../constants';
 
 class Login extends Component {
   constructor() {
@@ -19,7 +20,7 @@ class Login extends Component {
   postLogin = () => {
     const { email, password } = this.state;
 
-    fetch('http://localhost:3001/api/v0/auth/login', {
+    fetch(`${API_URL}/api/${API_VERSION}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
