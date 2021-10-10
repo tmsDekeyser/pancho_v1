@@ -3,7 +3,7 @@ const config = require('config');
 const ErrorResponse = require('../util/errorResponse');
 const asyncHandler = require('../middleware/async');
 
-const User = require('../models/User');
+const User = require('../models/users/User');
 
 exports.protect = asyncHandler(async (req, res, next) => {
   let token;

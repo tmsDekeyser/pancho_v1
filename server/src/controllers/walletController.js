@@ -2,9 +2,8 @@
 const { bc } = require('../local/local-copy');
 const asyncHandler = require('../middleware/async');
 
-const BlockExplorer = require('../blockchain/block-explorer');
-const Wallet = require('../wallet/index');
-const User = require('../models/User');
+const BlockExplorer = require('../models/blockchain/block-explorer');
+const User = require('../models/users/User');
 
 //helper functions
 

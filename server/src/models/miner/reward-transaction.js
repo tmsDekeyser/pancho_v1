@@ -1,4 +1,4 @@
-const { REWARD } = require('../config/config');
+const { REWARD } = require('../../../config/config');
 const Transaction = require('../wallet/transaction');
 
 class RewardTx extends Transaction {

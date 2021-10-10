@@ -1,7 +1,7 @@
 const Block = require('./block');
 require('colors');
 const Transaction = require('../wallet/transaction');
-const { BadgeTransaction } = require('../wallet/badge-transaction');
+const BadgeTransaction = require('../wallet/badge-transaction');
 
 class Blockchain {
   constructor() {

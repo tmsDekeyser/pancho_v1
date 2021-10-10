@@ -6,9 +6,9 @@ const {
   p2pServer,
   miner,
 } = require('../local/local-copy');
-const Wallet = require('../wallet/index');
+const Wallet = require('../models/wallet/index');
 const asyncHandler = require('../middleware/async');
-const BlockExplorer = require('../blockchain/block-explorer');
+const BlockExplorer = require('../models/blockchain/block-explorer');
 
 const transactHelper = (wall, req) => {
   const { amount } = req.body;

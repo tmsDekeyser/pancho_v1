@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const { DIFFICULTY } = require('../config/config');
+const { DIFFICULTY } = require('../../../config/config');
 
 class Block {
   constructor({ index, timestamp, lastHash, hash, nonce, data }) {

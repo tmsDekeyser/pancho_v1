@@ -1,9 +1,9 @@
-const CryptoUtil = require('../util/cryptoUtil');
+const CryptoUtil = require('../../util/cryptoUtil');
 
 const Transaction = require('./transaction');
 const Nomination = require('./nomination');
 const BlockExplorer = require('../blockchain/block-explorer');
-const { BadgeTransaction } = require('./badge-transaction');
+const BadgeTransaction = require('./badge-transaction');
 
 class Wallet {
   constructor({ priv, pub, addressBook }, blockchain) {

@@ -1,7 +1,7 @@
 const ErrorResponse = require('../util/errorResponse');
 const asyncHandler = require('../middleware/async');
-const User = require('../models/User');
-const Wallet = require('../wallet/index');
+const User = require('../models/users/User');
+const Wallet = require('../models/wallet/index');
 const { bc } = require('../local/local-copy');
 const config = require('config');
 

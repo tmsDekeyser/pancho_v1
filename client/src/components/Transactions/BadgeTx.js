@@ -10,8 +10,8 @@ const BadgeTx = ({ tx }) => {
         Type: {input.type} | ID: {id}{' '}
       </div>
       <div style={{ paddingTop: '5px' }}>
-        Nominator: {input.address.substring(0, 19)}... <br /> Nominee:{' '}
-        {nomination.data.address.substring(0, 19)}... <br />
+        Nominator: {nomination.data.address.substring(0, 19)}... <br />
+        Nominee: {input.address.substring(0, 19)}... <br />
         Badge: {nomination.data.badge.badgeAddress}
       </div>
       <br />

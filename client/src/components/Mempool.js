@@ -45,8 +45,8 @@ class Mempool extends Component {
           <div>
             {this.state.transactions.map((tx) => {
               return (
-                <div>
-                  <RegularTx key={tx.id} tx={tx} />
+                <div key={tx.id}>
+                  <RegularTx tx={tx} />
                   <hr />
                 </div>
               );
@@ -55,8 +55,8 @@ class Mempool extends Component {
           <div style={{ paddingBottom: '5px' }}>
             {this.state.badgeTransactions.map((tx) => {
               return (
-                <div>
-                  <BadgeTx key={tx.id} tx={tx} />
+                <div key={tx.id}>
+                  <BadgeTx tx={tx} />
                   <hr />
                 </div>
               );
@@ -75,12 +75,8 @@ class Mempool extends Component {
         <div>
           {this.state.nominations.map((nom) => {
             return (
-              <div>
-                <Nomination
-                  key={nom.id}
-                  nom={nom}
-                  nominations={this.state.nominations}
-                />
+              <div key={nom.id}>
+                <Nomination nom={nom} nominations={this.state.nominations} />
                 <hr />
               </div>
             );

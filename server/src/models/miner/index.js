@@ -1,7 +1,8 @@
 const fs = require('fs');
+const path = require('path');
 
 const Transaction = require('../wallet/transaction');
-const { BadgeTransaction } = require('../wallet/badge-transaction');
+const BadgeTransaction = require('../wallet/badge-transaction');
 const Wallet = require('../wallet');
 const DividendTx = require('./dividend-transaction');
 const RewardTx = require('./reward-transaction');
@@ -51,7 +52,7 @@ class Miner {
     this.p2pServer.broadcastClearTransactions();
 
     fs.writeFile(
-      './local/blockchainJSON.txt',
+      path.join(__dirname, '../../local/blockchainJSON.txt'),
       JSON.stringify(this.blockchain),
       (err) => {
         if (err) throw err;

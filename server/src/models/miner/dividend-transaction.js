@@ -1,4 +1,4 @@
-const { DIVIDEND } = require('../config/config');
+const { DIVIDEND } = require('../../../config/config');
 const Transaction = require('../wallet/transaction');
 
 class DividendTx extends Transaction {

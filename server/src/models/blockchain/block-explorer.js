@@ -1,4 +1,4 @@
-const { STARTING_BALANCE } = require('../config/config');
+const { STARTING_BALANCE } = require('../../../config/config');
 
 class BlockExplorer {
   static userTransactions(blockchain, address) {
