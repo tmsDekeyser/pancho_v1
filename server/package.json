@@ -1,0 +1,33 @@
+{
+  "name": "pancho_v0",
+  "version": "1.0.0",
+  "description": "A simple version of the pancho learning validation system",
+  "main": "app.js",
+  "scripts": {
+    "server": "node app.js",
+    "peer": "HTTP_PORT=3002 P2P_PORT=5002 node app.js",
+    "peer2": "HTTP_PORT=3003 P2P_PORT=5003 node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tmsDekeyser/pancho_v0.git"
+  },
+  "author": "Thomas Dekeyser",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tmsDekeyser/pancho_v0/issues"
+  },
+  "homepage": "https://github.com/tmsDekeyser/pancho_v0#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "config": "^3.3.6",
+    "cookie-parser": "^1.4.5",
+    "elliptic": "^6.5.4",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.2",
+    "uuid": "^8.3.2",
+    "ws": "^7.4.6"
+  }
+}

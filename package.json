@@ -1,0 +1,20 @@
+{
+  "name": "pancho_v1",
+  "version": "1.0.0",
+  "description": "Demo version for the learning protocol pancho, used as master thesis in the Master of Blockchain Technologies at Zigurat",
+  "main": "server/app.js",
+  "scripts": {
+    "install-server": "npm install --prefix server",
+    "install-client": "npm install --prefix client",
+    "install": "npm run install-server && npm run install-client"
+  },
+  "keywords": [
+    "blockchain",
+    "learning",
+    "demo",
+    "square",
+    "money"
+  ],
+  "author": "Thomas Dekeyser",
+  "license": "ISC"
+}
