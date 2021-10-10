@@ -1,19 +1,21 @@
+const config = require('config');
 const ErrorResponse = require('../util/errorResponse');
 const asyncHandler = require('../middleware/async');
+
 const User = require('../models/users/User');
+
 const Wallet = require('../models/wallet/index');
 const { bc } = require('../local/local-copy');
-const config = require('config');
 
 // @desc    Register a user
-// @route   POST api/v0/auth/register
+// @route   POST api/v1/auth/register
 // @access  Public
 exports.register = asyncHandler(async (req, res, next) => {
   const { username, email, password, role } = req.body;
   const wallet = new Wallet({ priv: null, pub: null, addressBook: {} }, bc);
   const keys = [wallet.keyPair.getPrivate('hex'), wallet.address];
 
-  //create user
+  //create user in MongoDB
   const user = await User.create({
     username,
     email,
@@ -26,7 +28,7 @@ exports.register = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Login a user
-// @route   POST api/v0/auth/login
+// @route   POST api/v1/auth/login
 // @access  Public
 exports.login = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
@@ -54,7 +56,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Get user ID for logged in user
-// @route   POST api/v0/auth/me
+// @route   POST api/v1/auth/me
 // @access  Private
 exports.getMe = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user._id);

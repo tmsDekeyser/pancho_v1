@@ -24,6 +24,8 @@ class Miner {
     const validTxs = validRtxs.concat(validBtxs);
 
     //add reward and dividend Transaction
+
+    //const numTx = validTxs.length;
     const rewardTx = new RewardTx(
       Wallet.bankWallet(this.blockchain),
       this.wallet.address
@@ -56,7 +58,6 @@ class Miner {
       JSON.stringify(this.blockchain),
       (err) => {
         if (err) throw err;
-        //console.log('Writing blockchain to local file from Miner');
       }
     );
   }

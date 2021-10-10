@@ -1,79 +1,74 @@
-//Checked after adding authentication
-const {
-  bc,
-  wallet,
-  mempool,
-  p2pServer,
-  miner,
-} = require('../local/local-copy');
-const Wallet = require('../models/wallet/index');
 const asyncHandler = require('../middleware/async');
+const Wallet = require('../models/wallet/index');
 const BlockExplorer = require('../models/blockchain/block-explorer');
 
-const transactHelper = (wall, req) => {
-  const { amount } = req.body;
-  let { recipient } = req.body;
-  const foundAddress = Object.values(wall.addressBook).find(
-    (item) => item.alias === recipient
+const { bc, mempool, p2pServer, miner } = require('../local/local-copy');
+
+const findContact = (wallet, input) => {
+  const foundContact = Object.values(wallet.addressBook).find(
+    (item) => item.alias === input
   );
-  recipient = foundAddress ? foundAddress.address : recipient;
-
-  const tx = wall.createTransaction(recipient, amount, mempool);
-
-  if (tx) {
-    mempool.addOrUpdateTransaction(tx);
-    p2pServer.broadcastTransaction(tx);
-  }
+  return foundContact ? foundContact.address : input;
 };
 
 //@description    Show Blockchain
-//@Route          GET api/v0/p2p/blocks
+//@Route          GET api/v1/p2p/blocks
 //@Visibiity      Public
 exports.getBlocks = (req, res, next) => {
   res.json(bc.chain);
 };
 
 //@description    Show Mempool
-//@Route          GET api/v0/p2p/mempool
+//@Route          GET api/v1/p2p/mempool
 //@Visibiity      Public
 exports.getMempool = (req, res, next) => {
   res.json(mempool);
 };
 
 //@description    Show Known addresses on blockchain
-//@Route          GET api/v0/p2p/known-addresses
+//@Route          GET api/v1/p2p/known-addresses
 //@Visibiity      Public
 exports.getKnownAddresses = (req, res, next) => {
   res.json(BlockExplorer.knownAddresses(bc));
 };
 
 //@description    Show Connected peers
-//@Route          GET api/v0/p2p/peers
+//@Route          GET api/v1/p2p/peers
 //@Visibiity      Private + role === peer || admin
 exports.getPeers = (req, res, next) => {
   res.json(p2pServer.peers);
 };
 
 //@description    Mine a block
-//@Route          POST api/v0/p2p/mine
-//@Visibiity      Private + role === admin
+//@Route          POST api/v1/p2p/mine
+//@Visibiity      Private + role === admin or peer
 exports.mineBlock = (req, res, next) => {
   miner.mine();
   res.redirect('blocks');
 };
 
 //@description    Send transaction request to main node
-//@Route          POST api/v0/p2p/transact
+//@Route          POST api/v1/p2p/transact
 //@Visibiity      Private
 exports.postTransactionMain = asyncHandler(async (req, res, next) => {
   const priv = req.user.keys[0];
   const pub = req.user.keys[1];
   const addressBook = JSON.parse(req.user.addressBook);
 
+  const userWallet = new Wallet({ priv, pub, addressBook }, bc);
+
+  const { amount } = req.body;
+  let { recipient } = req.body;
+
+  recipient = findContact(userWallet, recipient);
+
   try {
-    const userWallet = new Wallet({ priv, pub, addressBook }, bc);
-    // userWallet.addressBook = addressBook;
-    transactHelper(userWallet, req);
+    const tx = userWallet.createTransaction(recipient, amount, mempool);
+
+    if (tx) {
+      mempool.addOrUpdateTransaction(tx);
+      p2pServer.broadcastTransaction(tx);
+    }
     res.redirect('mempool');
   } catch (error) {
     next(error);
@@ -81,25 +76,21 @@ exports.postTransactionMain = asyncHandler(async (req, res, next) => {
 });
 
 //@description    Nominate user for badge
-//@Route          POST api/v0/p2p/nominate
+//@Route          POST api/v1/p2p/nominate
 //@Visibiity      Private
 exports.nominateMain = asyncHandler(async (req, res, next) => {
   const priv = req.user.keys[0];
   const pub = req.user.keys[1];
   const addressBook = JSON.parse(req.user.addressBook);
 
+  const userWallet = new Wallet({ priv, pub, addressBook }, bc);
+
   const { badgeAddress, amount } = req.body;
   let { badgeRecipient } = req.body;
 
+  badgeRecipient = findContact(userWallet, badgeRecipient);
+
   try {
-    const userWallet = new Wallet({ priv, pub, addressBook }, bc);
-
-    const foundContact = Object.values(userWallet.addressBook).find((item) => {
-      return item.alias === badgeRecipient;
-    });
-    //We check if the recipient is an alias
-    badgeRecipient = foundContact ? foundContact.address : badgeRecipient;
-
     const nomination = userWallet.nominate(
       badgeAddress,
       badgeRecipient,
@@ -115,7 +106,7 @@ exports.nominateMain = asyncHandler(async (req, res, next) => {
 });
 
 //@description    Accept or reject nomination
-//@Route          POST api/v0/p2p/nomination-decision
+//@Route          POST api/v1/p2p/nomination-decision
 //@Visibiity      Private
 exports.nominationDecision = asyncHandler(async (req, res, next) => {
   const priv = req.user.keys[0];

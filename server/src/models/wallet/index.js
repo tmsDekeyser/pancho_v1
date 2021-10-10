@@ -5,6 +5,8 @@ const Nomination = require('./nomination');
 const BlockExplorer = require('../blockchain/block-explorer');
 const BadgeTransaction = require('./badge-transaction');
 
+const { NOM_MULTIPLIER } = require('../../../config/config');
+
 class Wallet {
   constructor({ priv, pub, addressBook }, blockchain) {
     this.keyPair =
@@ -79,7 +81,7 @@ class Wallet {
       return;
     }
 
-    if (amount > nomination.data.badge.amount * 3) {
+    if (amount > nomination.data.badge.amount * NOM_MULTIPLIER) {
       console.error('Entered amount out of bounds');
       return;
     }
@@ -87,7 +89,7 @@ class Wallet {
     const btx = new BadgeTransaction(this, nomination, amount);
     btx.input.signature = this.sign(BadgeTransaction.txHash(btx.outputs));
 
-    console.log(btx);
+    //console.log(btx);
     return btx;
   }
 

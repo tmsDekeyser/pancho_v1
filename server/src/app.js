@@ -1,7 +1,10 @@
-const express = require('express');
-const colors = require('colors');
-const cookieParser = require('cookie-parser');
 const path = require('path');
+const colors = require('colors');
+
+const express = require('express');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+
 const errorHandler = require('./middleware/error');
 
 const { p2pServer } = require('./local/local-copy');
@@ -17,6 +20,7 @@ const authRoutes = require('./routes/auth');
 
 //Express.js
 const app = express();
+app.use(cors()); //TODO: figure out if and how to use whitelisting
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '/../../client/public')));

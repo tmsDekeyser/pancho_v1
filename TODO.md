@@ -6,18 +6,26 @@ Project Description
 
 ### Todo
 
-- [ ] Logout  
-- [ ] Block explorer  
-- [ ] Graph visualisation  
+- [ ] BE: peer version  
+- [ ] FE: Add flow to nomination decision  
+- [ ] FE: Mempool search & pagination  
+- [ ] FE: Select element badges  
+- [ ] FE: copy address to clipboard  
+- [ ] FE: d3 graph  
+- [ ] BE: Explorer Metrics  
+- [ ] BE: Graph  vis data prep  
 
 ### In Progress
 
-- [ ] Frontend  
-- [ ] Add badges  
-- [ ] Docgen  
+- [ ] Documentation  
+- [ ] Deployment prep  
+- [ ] Testing  
 
 ### Done ✓
 
+- [x] Logout  
+- [x] Add badges  
+- [x] Frontend  
 - [x] login/authentication  
 - [x] MVC pattern  
 - [x] API docs  

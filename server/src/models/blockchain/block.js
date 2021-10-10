@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const { DIFFICULTY } = require('../../../config/config');
+const { DIFFICULTY, GENESIS_DATA } = require('../../../config/config');
 
 class Block {
   constructor({ index, timestamp, lastHash, hash, nonce, data }) {
@@ -12,18 +12,7 @@ class Block {
   }
 
   static genesis() {
-    const genesisBlock = new this({
-      index: 0,
-      timestamp: 1000000,
-      lastHash: '0xplaceholder',
-      nonce: 0,
-      hash: '',
-      data: {
-        knowledge: '0xknowledge',
-        connector: '0xconnector',
-        feedback: '0xfeedback',
-      },
-    });
+    const genesisBlock = new this(GENESIS_DATA);
 
     const { index, timestamp, lastHash, nonce, data } = genesisBlock;
 
@@ -34,6 +23,7 @@ class Block {
       nonce,
       data,
     });
+
     return genesisBlock;
   }
 

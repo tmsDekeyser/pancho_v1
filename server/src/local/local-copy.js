@@ -7,6 +7,8 @@ const Wallet = require('../models/wallet');
 const Mempool = require('../models/wallet/mempool');
 const Miner = require('../models/miner');
 
+//On startup, we will either create a new blockchain or
+//the one in storage, provided it is valid (checked by replaceChain fn)
 const bc = new Blockchain();
 const bcFromFile = JSON.parse(
   fs.readFileSync(path.join(__dirname, 'blockchainJSON.txt'))

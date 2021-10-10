@@ -10,7 +10,7 @@ const {
   broadcastClearTransactions,
 } = require('./p2pBroadcast');
 
-const { IP_BOOTSTRAP, IP_PEER } = require('../../../config/config');
+const { IP_BOOTSTRAP } = require('../../../config/config');
 const P2P_PORT = process.env.P2P_PORT || 5001;
 
 class P2pServer {
@@ -18,6 +18,8 @@ class P2pServer {
     this.blockchain = blockchain;
     this.mempool = mempool;
     this.sockets = [];
+    //Here we should check if we are the bootstrapping server or not.
+    //When not in local dev, the below check will not work
     this.peers = P2P_PORT === 5001 ? [] : [`ws://${IP_BOOTSTRAP}:5001`];
   }
 

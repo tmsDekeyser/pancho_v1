@@ -7,6 +7,8 @@ const MESSAGE_TYPES = {
   peers: 'PEERS',
 };
 
+const P2P_PORT = process.env.P2P_PORT || 5001;
+
 //Sending messages
 
 function sendChain(p2pServer, socket) {

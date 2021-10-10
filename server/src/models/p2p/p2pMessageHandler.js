@@ -10,6 +10,8 @@ const MESSAGE_TYPES = {
   peers: 'PEERS',
 };
 
+const { IP_PEER } = require('../../../config/config');
+
 function messageHandler(p2pServer, socket) {
   socket.on('message', (message) => {
     const data = JSON.parse(message);
@@ -17,6 +19,7 @@ function messageHandler(p2pServer, socket) {
     switch (data.type) {
       case MESSAGE_TYPES.chain:
         p2pServer.blockchain.replaceChain(data.chain);
+        //now you are also writing when the chain is not valid
         fs.writeFile(
           './local/blockchainJSON.txt',
           JSON.stringify(p2pServer.blockchain),

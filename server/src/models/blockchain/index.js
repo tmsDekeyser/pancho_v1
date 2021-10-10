@@ -1,5 +1,5 @@
-const Block = require('./block');
 require('colors');
+const Block = require('./block');
 const Transaction = require('../wallet/transaction');
 const BadgeTransaction = require('../wallet/badge-transaction');
 
@@ -18,8 +18,7 @@ class Blockchain {
   }
 
   addBlock(newBlock) {
-    //TODO: add block validation
-    //Redundant due to replaceChain() function
+    //Still being used?
     this.chain.push(newBlock);
     return this.chain;
   }
@@ -27,7 +26,7 @@ class Blockchain {
   static isValidChain(chain) {
     if (JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis())) {
       console.log('Genesis block does not match'.red);
-      //console.log(chain);
+
       return false;
     }
     for (let i = 1; i < chain.length; i++) {
@@ -78,7 +77,6 @@ class Blockchain {
   }
 
   checkTxs(subChain) {
-    //console.log(subChain);
     subChain.forEach((block) => {
       block.data.forEach((tx) => {
         switch (tx.input.type) {
@@ -104,26 +102,6 @@ class Blockchain {
     console.log('Transaction in new blocks are valid');
     return true;
   }
-
-  // knownAddresses() {
-  //   //Runs through the blockchain and stores all addresses
-  //   //Necessary to hand out dividends to al users
-  //   const knownAddresses = {};
-  //   if (this.chain.length < 2) {
-  //     return knownAddresses;
-  //   }
-  //   for (let i = 1; i < this.chain.length; i++) {
-  //     let block = this.chain[i];
-  //     block.data.forEach((tx) => {
-  //       Object.keys(tx.outputs).forEach((address) => {
-  //         if (!knownAddresses[address]) {
-  //           knownAddresses[address] = address;
-  //         }
-  //       });
-  //     });
-  //   }
-  //   return knownAddresses;
-  // }
 }
 
 module.exports = Blockchain;
