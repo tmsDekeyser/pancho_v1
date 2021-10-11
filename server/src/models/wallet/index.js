@@ -1,3 +1,4 @@
+const colors = require('colors');
 const CryptoUtil = require('../../util/cryptoUtil');
 
 const Transaction = require('./transaction');
@@ -38,14 +39,14 @@ class Wallet {
 
     if (tx) {
       if (senderBalanceOnChain - tx.outputs[this.address] < amount) {
-        console.error('Not enough funds to complete transaction');
+        console.error('Not enough funds to complete transaction'.red);
         return;
       } else {
         tx.updateTransaction(this, recipient, amount);
       }
     } else {
       if (senderBalanceOnChain < amount) {
-        console.error('Not enough funds to complete transaction');
+        console.error('Not enough funds to complete transaction'.red);
         return;
       } else {
         tx = new Transaction(this, recipient, amount);
@@ -72,17 +73,17 @@ class Wallet {
 
   createBadgeTransaction(nomination, amount) {
     if (nomination.data.badge.badgeRecipient !== this.address) {
-      console.error('You are not nominated in this nomination');
+      console.error('You are not nominated in this nomination'.red);
       return;
     }
 
     if (amount > this.calculateFlow()) {
-      console.error('You do not have enough flow to spend');
+      console.error('You do not have enough flow to spend'.red);
       return;
     }
 
     if (amount > nomination.data.badge.amount * NOM_MULTIPLIER) {
-      console.error('Entered amount out of bounds');
+      console.error('Entered amount out of bounds'.red);
       return;
     }
 

@@ -1,8 +1,12 @@
+const fs = require('fs');
+const path = require('path');
+
 const asyncHandler = require('../middleware/async');
 const BlockExplorer = require('../models/blockchain/block-explorer');
 const User = require('../models/users/User');
 
-const { bc } = require('../local/local-copy');
+const { bc, walletOptions } = require('../local/local-copy');
+const P2P_PORT = process.env.P2P_PORT || 5001;
 
 //helper functions
 
@@ -55,17 +59,28 @@ exports.getBadgesByAddress = (req, res) =>
 //@Visibiity      Private
 exports.postContactsMain = asyncHandler(async (req, res, next) => {
   const { address, alias } = req.body;
-  if (!JSON.parse(req.user.addressBook)) {
-    const addressBook = {};
-  } else {
+  let addressBook = {};
+  if (JSON.parse(req.user.addressBook)) {
     addressBook = JSON.parse(req.user.addressBook);
   }
 
   addressBook[alias] = { address: address, alias: alias };
 
-  const user = await User.findByIdAndUpdate(req.user._id, {
-    addressBook: JSON.stringify(addressBook),
-  });
+  if (!process.env.PEER) {
+    const user = await User.findByIdAndUpdate(req.user._id, {
+      addressBook: JSON.stringify(addressBook),
+    });
+  } else {
+    walletOptions.addressBook = addressBook;
+
+    fs.writeFile(
+      path.join(__dirname, `../local/walletJSON_${P2P_PORT}.txt`),
+      JSON.stringify(walletOptions),
+      (err) => {
+        if (err) throw err;
+      }
+    );
+  }
 
   res.redirect('contacts');
 });

@@ -1,6 +1,7 @@
 const asyncHandler = require('../middleware/async');
 const Wallet = require('../models/wallet/index');
 const BlockExplorer = require('../models/blockchain/block-explorer');
+const ErrorResponse = require('../util/errorResponse');
 
 const { bc, mempool, p2pServer, miner } = require('../local/local-copy');
 
@@ -122,13 +123,15 @@ exports.nominationDecision = asyncHandler(async (req, res, next) => {
       const userWallet = new Wallet({ priv, pub, addressBook }, bc);
       const btx = userWallet.createBadgeTransaction(nomination, amount);
 
+      if (!btx) {
+        return next(new ErrorResponse('Bad request', 400));
+      }
+
       mempool.addBadgeTransaction(btx);
-      mempool.removeNomination(nomId);
       p2pServer.broadcastTransaction(btx);
-    } else {
-      mempool.removeNomination(nomId);
-      p2pServer.broadcastRejection(nomId);
     }
+    mempool.removeNomination(nomId);
+    p2pServer.broadcastRejection(nomId);
     res.redirect('mempool');
   } catch (error) {
     next(error);

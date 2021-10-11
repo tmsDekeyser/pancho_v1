@@ -58,7 +58,9 @@ class Mempool {
   }
 
   removeNomination(nomId) {
+    console.log('Removing nomination', nomId);
     this.nominations = this.nominations.filter((nom) => nom.id !== nomId);
+    console.log('After removal: ', this.nominations);
   }
 
   addBadgeTransaction(btx) {
