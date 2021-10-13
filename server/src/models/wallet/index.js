@@ -40,25 +40,30 @@ class Wallet {
     if (tx) {
       if (senderBalanceOnChain - tx.outputs[this.address] < amount) {
         console.error('Not enough funds to complete transaction'.red);
-        return;
+        return {
+          success: false,
+          msg: 'Not enough funds to complete transaction',
+        };
       } else {
         tx.updateTransaction(this, recipient, amount);
       }
     } else {
       if (senderBalanceOnChain < amount) {
         console.error('Not enough funds to complete transaction'.red);
-        return;
+        return {
+          success: false,
+          msg: 'Not enough funds to complete transaction',
+        };
       } else {
         tx = new Transaction(this, recipient, amount);
       }
     }
     //Sign transaction
     tx.input.signature = this.sign(Transaction.txHash(tx.outputs));
-    return tx;
+    return { success: true, tx };
   }
 
   nominate(badgeAddress, badgeRecipient, amount) {
-    // How do we check the balance and how much do we allow to spend?
     const nomination = new Nomination(
       this,
       badgeAddress,
@@ -74,24 +79,27 @@ class Wallet {
   createBadgeTransaction(nomination, amount) {
     if (nomination.data.badge.badgeRecipient !== this.address) {
       console.error('You are not nominated in this nomination'.red);
-      return;
+      return {
+        success: false,
+        msg: 'You are not nominated in this nomination',
+      };
     }
 
     if (amount > this.calculateFlow()) {
       console.error('You do not have enough flow to spend'.red);
-      return;
+      return { success: false, msg: 'You do not have enough flow to spend' };
     }
 
     if (amount > nomination.data.badge.amount * NOM_MULTIPLIER) {
       console.error('Entered amount out of bounds'.red);
-      return;
+      return { success: false, msg: 'Entered amount out of bounds' };
     }
 
     const btx = new BadgeTransaction(this, nomination, amount);
     btx.input.signature = this.sign(BadgeTransaction.txHash(btx.outputs));
 
     //console.log(btx);
-    return btx;
+    return { success: true, btx };
   }
 
   calculateBalance() {

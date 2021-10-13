@@ -81,7 +81,7 @@ class Blockchain {
       block.data.forEach((tx) => {
         switch (tx.input.type) {
           case 'REGULAR':
-            if (!Transaction.verifyTx(tx)) {
+            if (!Transaction.verifyTx(tx, this)) {
               return false;
             }
             break;

@@ -64,7 +64,7 @@ class Miner {
 
   validTransactions() {
     return this.mempool.transactions.filter((tx) => {
-      return Transaction.verifyTx(tx);
+      return Transaction.verifyTx(tx, this.blockchain);
     });
   }
 

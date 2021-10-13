@@ -59,7 +59,7 @@ class Block extends Component {
   render() {
     // console.log(this.props);
 
-    const { index, hash, lastHash, timestamp, data } = this.props.block;
+    const { index, hash, lastHash, timestamp, nonce, data } = this.props.block;
 
     const readableHash = `${hash.substring(0, 31)}...`;
     const date = new Date(timestamp).toLocaleString('en-GB');
@@ -68,7 +68,11 @@ class Block extends Component {
       <div>
         <div className='block-header'>
           <div>
-            Index: {index} <Jdenticon value={hash} size='128' />
+            Index: {index}{' '}
+            <Jdenticon
+              value={`${index}${timestamp}${lastHash}${nonce}${data}`}
+              size='128'
+            />
           </div>
           <div style={{ width: '500px', wordWrap: 'break-word' }}>
             Timestamp: {date} <br />
@@ -76,7 +80,15 @@ class Block extends Component {
           </div>
 
           <div>
-            Previous: <Jdenticon value={lastHash} size='64' />
+            Previous:{' '}
+            {index === 0 ? (
+              <p>None</p>
+            ) : (
+              <Jdenticon
+                value={`${this.props.prevBlock.index}${this.props.prevBlock.timestamp}${this.props.prevBlock.lastHash}${this.props.prevBlock.nonce}${this.props.prevBlock.data}`}
+                size='64'
+              />
+            )}
           </div>
         </div>
         <div className='block-body'>{this.displayTransactions}</div>

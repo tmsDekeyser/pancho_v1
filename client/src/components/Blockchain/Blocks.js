@@ -99,7 +99,13 @@ class Blocks extends Component {
           </div>
 
           {chainSlice.map((block) => {
-            return <Block key={block.index} block={block} />;
+            return (
+              <Block
+                key={block.index}
+                block={block}
+                prevBlock={this.state.chain[block.index - 1]}
+              />
+            );
           })}
         </div>
       </div>
