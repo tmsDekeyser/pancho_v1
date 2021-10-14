@@ -1,4 +1,5 @@
 import React from 'react';
+import { Address } from '../utils/Address';
 
 const RegularTx = ({ tx }) => {
   const { id, input, outputs } = tx;
@@ -10,13 +11,16 @@ const RegularTx = ({ tx }) => {
         Type: {input.type} | ID: {id}{' '}
       </div>
       <div style={{ paddingTop: '5px' }}>
-        From: {input.address.substring(0, 19)}... | Balance: {input.balance}{' '}
-        SQM:T
+        From: <Address address={input.address} readable={true} />
+        {'   '}|{'   '}
+        Balance: {input.balance} SQM:T
       </div>
       <br />
       {recipients.map((recipient) => (
         <div key={recipient}>
-          To: {recipient.substring(0, 19)}... | Sent: {outputs[recipient]} SQM:T
+          To: <Address address={recipient} readable={true} />
+          {'   '}|{'   '}
+          Sent: {outputs[recipient]} SQM:T
         </div>
       ))}
     </div>

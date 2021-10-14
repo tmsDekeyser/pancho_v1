@@ -144,11 +144,22 @@ class BlockExplorer {
     for (let i = 1; i < blockchain.chain.length; i++) {
       let block = blockchain.chain[i];
       block.data.forEach((tx) => {
-        Object.keys(tx.outputs).forEach((address) => {
-          if (!knownAddresses[address]) {
-            knownAddresses[address] = address;
-          }
-        });
+        // When you store both sender and receivers
+        // Negative consequence is that you give dividend to wrong addresses
+
+        // Object.keys(tx.outputs).forEach((address) => {
+        //   if (!knownAddresses[address]) {
+        //     knownAddresses[address] = address;
+        //   }
+        // });
+        // Only when you've sent a tx
+
+        if (
+          !knownAddresses[tx.input.address] &&
+          tx.input.address !== 'BLOCKCHAIN_BANK'
+        ) {
+          knownAddresses[tx.input.address] = tx.input.address;
+        }
       });
     }
     return knownAddresses;

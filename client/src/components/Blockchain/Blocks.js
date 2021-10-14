@@ -39,10 +39,20 @@ class Blocks extends Component {
   showPage = (event) => {
     const { length } = this.state.chain;
 
-    this.setState({
-      pageNumber: Math.ceil(
+    let pageNumber;
+
+    if (this.state.inputBlockNo < 0) {
+      pageNumber = Math.ceil(length / BLOCKS_PER_PAGE);
+    } else if (this.state.inputBlockNo > length) {
+      pageNumber = 1;
+    } else {
+      pageNumber = Math.ceil(
         (length - this.state.inputBlockNo) / BLOCKS_PER_PAGE
-      ),
+      );
+    }
+
+    this.setState({
+      pageNumber,
       inputBlockNo: 0,
     });
   };
@@ -52,13 +62,19 @@ class Blocks extends Component {
   };
 
   pageUp = () => {
-    const newPageNumber = this.state.pageNumber + 1;
-    this.setState({ pageNumber: newPageNumber });
+    const maxPageNumber = Math.ceil(this.state.chain.length / BLOCKS_PER_PAGE);
+
+    if (this.state.pageNumber < maxPageNumber) {
+      const newPageNumber = this.state.pageNumber + 1;
+      this.setState({ pageNumber: newPageNumber });
+    }
   };
 
   pageDown = () => {
-    const newPageNumber = this.state.pageNumber - 1;
-    this.setState({ pageNumber: newPageNumber });
+    if (this.state.pageNumber > 1) {
+      const newPageNumber = this.state.pageNumber - 1;
+      this.setState({ pageNumber: newPageNumber });
+    }
   };
   //Pagination end
 
@@ -70,7 +86,7 @@ class Blocks extends Component {
       <div>
         <Navigation activeComponent='blocks' />
 
-        <div className='container'>
+        <div className='container margin-bottoms'>
           <h2>Blockchain</h2>
           <div className='blocks-search'>
             <div style={{ margin: '10px', padding: '20px' }}>

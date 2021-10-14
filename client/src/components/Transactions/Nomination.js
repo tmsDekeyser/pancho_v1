@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { API_URL, API_VERSION } from '../../constants';
+import { Address } from '../utils/Address';
 
 class Nomination extends Component {
   constructor() {
@@ -77,9 +78,10 @@ class Nomination extends Component {
           Type: {data.type} | ID: {id}{' '}
         </div>
         <div>
-          Nominator: {data.address.substring(0, 19)}... <br /> Nominee:{' '}
-          {data.badge.badgeRecipient.substring(0, 19)}... <br />
-          Badge: {data.badge.badgeAddress}
+          Nominator: <Address address={data.address} readable={true} /> <br />{' '}
+          Nominee:{' '}
+          <Address address={data.badge.badgeRecipient} readable={true} /> <br />
+          Badge: <Address address={data.badge.badgeAddress} />
           {'  |  '} Amount: {data.badge.amount} SQM:F
         </div>
         <br />

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { API_URL, API_VERSION } from '../../constants';
 import BadgeList from './BadgeList';
+import { Address } from '../utils/Address';
 
 class Wallet extends Component {
   constructor() {
@@ -29,7 +30,9 @@ class Wallet extends Component {
       <div className='container'>
         <div className='wallet-info'>
           <div className='block-header'>Address:</div>
-          <div className='block-body'>{walletInfo.address}</div>
+          <div className='block-body'>
+            <Address address={walletInfo.address} />
+          </div>
           <div className='block-header'>Balance:</div>
           <div className='block-body'>
             Tokens: <strong>{walletInfo.balance}</strong>

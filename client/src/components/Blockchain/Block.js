@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import Jdenticon from '../utils/Jdenticon';
 import Transactions from '../Transactions/Transactions';
 import Genesis from './Genesis';
+import { Address } from '../utils/Address';
 
 class Block extends Component {
   constructor() {
@@ -75,8 +76,11 @@ class Block extends Component {
             />
           </div>
           <div style={{ width: '500px', wordWrap: 'break-word' }}>
-            Timestamp: {date} <br />
-            Hash: {hash}
+            <p style={{ marginBottom: '20px' }}>
+              Timestamp: {date} <br />
+              Nonce: {nonce}
+            </p>
+            Hash: <Address address={hash} readable={true} />
           </div>
 
           <div>

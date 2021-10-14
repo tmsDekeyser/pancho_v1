@@ -8,6 +8,8 @@ const DividendTx = require('./dividend-transaction');
 const RewardTx = require('./reward-transaction');
 const BlockExplorer = require('../blockchain/block-explorer');
 
+const P2P_PORT = process.env.P2P_PORT || 5001;
+
 class Miner {
   constructor({ blockchain, wallet, mempool, p2pServer }) {
     this.blockchain = blockchain;
@@ -25,10 +27,11 @@ class Miner {
 
     //add reward and dividend Transaction
 
-    //const numTx = validTxs.length;
+    const numTx = validTxs.length;
     const rewardTx = new RewardTx(
       Wallet.bankWallet(this.blockchain),
-      this.wallet.address
+      this.wallet.address,
+      numTx
     );
     validTxs.push(rewardTx);
 
@@ -36,12 +39,17 @@ class Miner {
       const dividendTx = new DividendTx(
         Wallet.bankWallet(this.blockchain),
         this.wallet.address,
-        Miner.numberOfDividendRecipients(this.blockchain)
+        Miner.numberOfDividendRecipients(this.blockchain),
+        numTx
       );
 
       Object.keys(BlockExplorer.knownAddresses(this.blockchain)).forEach(
         (recipient) => {
-          dividendTx.update(Wallet.bankWallet(this.blockchain), recipient);
+          dividendTx.update(
+            Wallet.bankWallet(this.blockchain),
+            recipient,
+            numTx
+          );
         }
       );
       validTxs.push(dividendTx);
@@ -54,7 +62,7 @@ class Miner {
     this.p2pServer.broadcastClearTransactions();
 
     fs.writeFile(
-      path.join(__dirname, '../../local/blockchainJSON.txt'),
+      path.join(__dirname, `../../local/blockchainJSON_${P2P_PORT}.txt`),
       JSON.stringify(this.blockchain),
       (err) => {
         if (err) throw err;

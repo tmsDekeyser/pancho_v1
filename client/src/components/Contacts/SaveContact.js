@@ -31,6 +31,7 @@ class SaveContact extends Component {
     })
       .then((response) => {
         if (response.status === 200) {
+          this.setState({ alias: '', address: '' });
           alert('Contact added!');
           this.props.history.push('/contacts');
         }

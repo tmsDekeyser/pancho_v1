@@ -21,6 +21,10 @@ body {
   align-items: center;
 }
 
+.margin-bottoms {
+  margin-bottom: 10%;
+}
+
 h2 {
   margin: 20px 0px;
 }
@@ -80,7 +84,7 @@ h2 {
 }
 
 .tx-header {
-  background-color: pink;
+  background-color: #e9e0ff;
   /* padding: 1% 0; */
 }
 
@@ -116,10 +120,27 @@ h2 {
   display: flex;
   justify-content: center;
   width: 70%;
-  margin: 30px 0 50px;
+  margin: 30px 0 100px;
 }
 
 #save-contact {
   width: 50%;
   margin: 10px 0px 30px;
+}
+
+.tx-flex-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.fifty {
+  width: 45%;
+}
+
+.ten {
+  width: 5%;
+}
+
+.twenty {
+  width: 40%;
 }

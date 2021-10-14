@@ -6,6 +6,7 @@ import {
   faHandshake,
   faComments,
 } from '@fortawesome/free-solid-svg-icons';
+import { Address } from '../utils/Address';
 
 const Badge = ({ badge }) => {
   switch (badge.badgeAddress) {
@@ -35,11 +36,11 @@ const Badge = ({ badge }) => {
           }}
         />
         <Card.Body>
-          <Card.Title style={{ backgroundColor: 'pink' }}>
+          <Card.Title style={{ backgroundColor: '#e9e0ff' }}>
             <span style={{ fontSize: '1.2em' }}>{badge.title}</span>
           </Card.Title>
           <Card.Text style={{ fontSize: '0.8em' }}>
-            {badge.badgeAddress}
+            <Address address={badge.badgeAddress} />
             <br />
             <strong>{badge.amount}</strong> SQM:F
           </Card.Text>

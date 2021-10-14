@@ -36,19 +36,17 @@ export default class ConductNomination extends Component {
       .then((response) => response.json())
       .then((json) => {
         console.log(json);
-        alert('Nomination added to mempool');
-        this.props.history.push('/mempool');
+        if (!json.error) {
+          alert('Nomination added to mempool');
+          this.props.history.push('/mempool');
+        } else {
+          alert(`Nomination failed: ${json.error}`);
+        }
       })
       .catch((err) => alert(`Whoops, something went wrong: ${err}`));
   };
 
   render() {
-    const options = [
-      { value: 'chocolate', label: 'Chocolate' },
-      { value: 'strawberry', label: 'Strawberry' },
-      { value: 'vanilla', label: 'Vanilla' },
-    ];
-    console.log;
     return (
       <div>
         <Form>

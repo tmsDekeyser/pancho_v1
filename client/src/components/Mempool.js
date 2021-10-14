@@ -124,7 +124,7 @@ class Mempool extends Component {
           Mine a Block
         </Button>
         <hr />
-        <div className='Blocks container'>
+        <div className='Blocks container margin-bottoms'>
           <div className='block-header'>
             <div>Transactions Pool</div>
           </div>

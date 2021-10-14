@@ -87,7 +87,7 @@ exports.postTransactionMain = (req, res, next) => {
     mempool.addOrUpdateTransaction(tx);
     p2pServer.broadcastTransaction(tx);
   } else {
-    return next(new ErrorResponse(createTxResp.msg, 400));
+    return next(new ErrorResponse(createTxResp.error, 400));
   }
   res.redirect('mempool');
 };
@@ -118,11 +118,20 @@ exports.nominateMain = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse('You cannot send tokens to yourself', 400));
   }
 
-  const nomination = userWallet.nominate(badgeAddress, badgeRecipient, amount);
+  const nominateResp = userWallet.nominate(
+    badgeAddress,
+    badgeRecipient,
+    amount
+  );
 
-  mempool.addNomination(nomination);
-  p2pServer.broadcastNomination(nomination);
-  res.redirect('mempool');
+  if (!nominateResp.success) {
+    return next(new ErrorResponse(nominateResp.error, 400));
+  } else {
+    const { nomination } = nominateResp;
+    mempool.addNomination(nomination);
+    p2pServer.broadcastNomination(nomination);
+    res.redirect('mempool');
+  }
 });
 
 //@description    Accept or reject nomination
@@ -156,7 +165,7 @@ exports.nominationDecision = asyncHandler(async (req, res, next) => {
     const createBtxResp = userWallet.createBadgeTransaction(nomination, amount);
 
     if (!createBtxResp.success) {
-      return next(new ErrorResponse(createBtxResp.msg, 400));
+      return next(new ErrorResponse(createBtxResp.error, 400));
     } else {
       const { btx } = createBtxResp;
       mempool.addBadgeTransaction(btx);

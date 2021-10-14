@@ -36,13 +36,15 @@ class Wallet {
     const senderBalanceOnChain = this.calculateBalance();
 
     let tx = mempool.existingTransaction(this.address);
+    console.log(tx);
 
     if (tx) {
-      if (senderBalanceOnChain - tx.outputs[this.address] < amount) {
+      if (tx.outputs[this.address] < amount) {
         console.error('Not enough funds to complete transaction'.red);
+        console.log(senderBalanceOnChain, tx.outputs[this.address], amount);
         return {
           success: false,
-          msg: 'Not enough funds to complete transaction',
+          error: 'Not enough funds to complete transaction',
         };
       } else {
         tx.updateTransaction(this, recipient, amount);
@@ -52,7 +54,7 @@ class Wallet {
         console.error('Not enough funds to complete transaction'.red);
         return {
           success: false,
-          msg: 'Not enough funds to complete transaction',
+          error: 'Not enough funds to complete transaction',
         };
       } else {
         tx = new Transaction(this, recipient, amount);
@@ -64,6 +66,11 @@ class Wallet {
   }
 
   nominate(badgeAddress, badgeRecipient, amount) {
+    if (amount > this.calculateFlow()) {
+      console.error('Not enough flow to spend'.red);
+      return { success: false, error: 'Not enough flow to spend' };
+    }
+
     const nomination = new Nomination(
       this,
       badgeAddress,
@@ -73,7 +80,7 @@ class Wallet {
 
     nomination.signature = this.sign(Nomination.nomHash(nomination.data));
 
-    return nomination;
+    return { success: true, nomination };
   }
 
   createBadgeTransaction(nomination, amount) {
@@ -81,18 +88,18 @@ class Wallet {
       console.error('You are not nominated in this nomination'.red);
       return {
         success: false,
-        msg: 'You are not nominated in this nomination',
+        error: 'You are not nominated in this nomination',
       };
     }
 
     if (amount > this.calculateFlow()) {
       console.error('You do not have enough flow to spend'.red);
-      return { success: false, msg: 'You do not have enough flow to spend' };
+      return { success: false, error: 'You do not have enough flow to spend' };
     }
 
     if (amount > nomination.data.badge.amount * NOM_MULTIPLIER) {
       console.error('Entered amount out of bounds'.red);
-      return { success: false, msg: 'Entered amount out of bounds' };
+      return { success: false, error: 'Entered amount out of bounds' };
     }
 
     const btx = new BadgeTransaction(this, nomination, amount);

@@ -31,8 +31,12 @@ export default class ConductTransaction extends Component {
       .then((response) => response.json())
       .then((json) => {
         console.log(json);
-        alert('Transaction added to mempool');
-        this.props.history.push('/mempool');
+        if (!json.error) {
+          alert('Transaction added to mempool');
+          this.props.history.push('/mempool');
+        } else {
+          alert(`Transaction failed: ${json.error}`);
+        }
       })
       .catch((err) => alert(`Whoops, something went wrong: ${err}`));
   };

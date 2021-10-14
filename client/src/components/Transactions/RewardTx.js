@@ -1,4 +1,5 @@
 import React from 'react';
+import { Address } from '../utils/Address';
 
 const RewardTx = ({ tx }) => {
   const { id, input, outputs } = tx;
@@ -12,7 +13,8 @@ const RewardTx = ({ tx }) => {
 
       {recipients.map((recipient) => (
         <div style={{ paddingTop: '5px' }} key={recipient}>
-          To: {recipient.substring(0, 19)}... | Sent: {outputs[recipient]} SQM:T
+          To: <Address address={recipient} readable={true} /> | Sent:{' '}
+          {outputs[recipient]} SQM:T
         </div>
       ))}
     </div>

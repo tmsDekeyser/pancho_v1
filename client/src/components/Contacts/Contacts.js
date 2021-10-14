@@ -27,13 +27,29 @@ export default class Contacts extends Component {
     }
   }
 
+  componentDidUpdate() {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      this.setState({ isAuthenticated: false });
+    } else {
+      fetch(`${API_URL}/api/${API_VERSION}/wallet/contacts`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => this.setState({ contacts: data }));
+    }
+  }
+
   render() {
     if (this.state.isAuthenticated) {
       return (
         <div>
           <Navigation activeComponent='contacts' />
           <div className='container'>
-            <SaveContact />
+            <SaveContact history={this.props.history} />
             <ContactList contacts={this.state.contacts} />
           </div>
         </div>

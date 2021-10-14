@@ -8,8 +8,9 @@
     "install-client": "npm install --prefix client",
     "install": "npm run install-server && npm run install-client",
     "server": "npm run server --prefix server",
+    "dev-server": "npm run dev-server --prefix server",
     "dev-client": "npm run dev-client --prefix client",
-    "dev": "npm run server & npm run dev-client"
+    "dev": "npm run dev-server & npm run dev-client"
   },
   "keywords": [
     "blockchain",
