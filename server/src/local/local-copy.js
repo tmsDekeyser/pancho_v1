@@ -19,39 +19,39 @@ const bcFromFile = JSON.parse(
 bc.replaceChain(bcFromFile.chain);
 
 let walletFromFileOptions;
-if (process.env.PEER) {
-  console.log('Triggered reading');
-  walletFromFileOptions = JSON.parse(
-    fs.readFileSync(path.join(__dirname, `walletJSON_${P2P_PORT}.txt`))
+
+console.log('Triggered reading');
+walletFromFileOptions = JSON.parse(
+  fs.readFileSync(path.join(__dirname, `walletJSON_${P2P_PORT}.txt`))
+);
+
+if (!walletFromFileOptions.addressBook) {
+  console.log('triggered writing');
+  const wallet = new Wallet({ priv: null, pub: null, addressBook: {} }, bc);
+
+  walletFromFileOptions = {
+    priv: wallet.keyPair.getPrivate('hex'),
+    pub: wallet.address,
+    addressBook: wallet.addressBook,
+  };
+
+  fs.writeFile(
+    path.join(__dirname, `walletJSON_${P2P_PORT}.txt`),
+    JSON.stringify(walletFromFileOptions),
+    (err) => {
+      if (err) throw err;
+    }
   );
-
-  if (!walletFromFileOptions.addressBook) {
-    console.log('triggered writing');
-    const wallet = new Wallet({ priv: null, pub: null, addressBook: {} }, bc);
-
-    walletFromFileOptions = {
-      priv: wallet.keyPair.getPrivate('hex'),
-      pub: wallet.address,
-      addressBook: wallet.addressBook,
-    };
-
-    fs.writeFile(
-      path.join(__dirname, `walletJSON_${P2P_PORT}.txt`),
-      JSON.stringify(walletFromFileOptions),
-      (err) => {
-        if (err) throw err;
-      }
-    );
-  }
 }
 
-const walletOptions = process.env.PEER
-  ? walletFromFileOptions
-  : {
-      priv: null,
-      pub: null,
-      addressBook: {},
-    };
+const walletOptions = walletFromFileOptions;
+// const walletOptions = process.env.PEER
+//   ? walletFromFileOptions
+//   : {
+//       priv: null,
+//       pub: null,
+//       addressBook: {},
+//     };
 
 const wallet = new Wallet(
   {

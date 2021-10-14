@@ -1,1 +1,1 @@
-{"priv":"a4a4d4398a543723818997169791da8c0e5f4ea217a0a4748dbacd0a7ead7b45","pub":"044c5d81586bf6145b8fd4cb1308f466c614324ad108c429754aefd2d5709a129709d855ae2b63e657585808e136f350603c54f2cf3e70dfc35044d255b46a96f3","addressBook":{"contact_alias":{"address":"new_hex_address","alias":"contact_alias"},"Thomas":{"address":"0402839c80008abc2d3f84429be89b22051b59345fdb2ea76b3e02e0c285c7391c4f1246f8af140b64be19fc894e426a3a2d40d416bf7a1c20bbf2626402ebdc32","alias":"Thomas"}}}
+{}

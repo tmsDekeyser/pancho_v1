@@ -4,7 +4,7 @@
   "description": "Frontend for the pancho demo",
   "main": "index.js",
   "scripts": {
-    "build-client": "npm run clean && parcel build src/index.html --out-dir public",
+    "build-client": "npm run clean && parcel build src/index.html --out-dir ../server/public",
     "dev-client": "npm run clean && parcel src/index.html --out-dir public",
     "clean": "rm -rf .cache public"
   },

@@ -10,7 +10,9 @@
     "server": "npm run server --prefix server",
     "dev-server": "npm run dev-server --prefix server",
     "dev-client": "npm run dev-client --prefix client",
-    "dev": "npm run dev-server & npm run dev-client"
+    "build": "npm run build-client --prefix client",
+    "dev": "npm run dev-server & npm run dev-client",
+    "start": "npm run build && NODE_ENV=production npm run server"
   },
   "keywords": [
     "blockchain",
