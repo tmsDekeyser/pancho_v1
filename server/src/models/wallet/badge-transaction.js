@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
+const colors = require('colors');
 const crypto = require('crypto');
 const CryptoUtil = require('../../util/cryptoUtil');
 const BlockExplorer = require('../blockchain/block-explorer');
@@ -24,6 +25,7 @@ class BadgeTransaction {
   static verifyBtx(btx, bc) {
     //check if sender and recipient are not the same
     const differentAddress = btx.nomination.data.address !== btx.input.address;
+    if (!differentAddress) console.log('Different address'.red);
 
     // check if both signatures are valid
     const sig1Valid = CryptoUtil.verifySignature({
@@ -32,11 +34,14 @@ class BadgeTransaction {
       signature: btx.input.nominationSig,
     });
 
+    if (!sig1Valid) console.log('Sig1 invalid'.red);
+
     const sig2Valid = CryptoUtil.verifySignature({
       publicKeyString: btx.input.address,
       data: BadgeTransaction.txHash(btx.outputs),
       signature: btx.input.signature,
     });
+    if (!sig2Valid) console.log('Sig2 invlaid'.red);
 
     //check if both have enough flow
     const senderFlow = BlockExplorer.calculateFlow(
@@ -48,21 +53,25 @@ class BadgeTransaction {
     const enoughFlow =
       senderFlow > btx.nomination.data.badge.amount &&
       recipientFlow > btx.outputs[btx.input.address];
+    if (!enoughFlow) console.log('Not enough flow'.red);
 
     //check for negative amounts
     const noNegatives =
-      0 <= btx.nomination.data.badge.amount &&
-      0 < btx.outputs[btx.input.address];
+      0 < btx.nomination.data.badge.amount &&
+      0 <= btx.outputs[btx.input.address];
+    if (!noNegatives) console.log('NO negatives'.red);
 
     // check if the badge exists
     const badgeExists = Object.values(bc.chain[0].data).includes(
       btx.nomination.data.badge.badgeAddress
     );
+    if (!badgeExists) console.log('BAdge does not exist'.red);
 
     //check if amount from nomination matches
     const amountMatches =
       btx.nomination.data.badge.amount ===
       btx.outputs[btx.nomination.data.address];
+    if (!amountMatches) console.log('Amount does not match'.red);
 
     return (
       sig1Valid &&
