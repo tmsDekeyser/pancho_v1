@@ -1,7 +1,7 @@
 {
   "mongoURI": "",
   "JWT_SECRET": "",
-  "JWT_EXPIRE": "",
-  "JWT_COOKIE_EXPIRE": 0,
+  "JWT_EXPIRE": "30d",
+  "JWT_COOKIE_EXPIRE": 30,
   "environment": "development"
 }
