@@ -8,7 +8,7 @@ const REWARD_PTX = 2;
 
 const NOM_MULTIPLIER = 3;
 
-const IP_BOOTSTRAP = '127.0.0.1';
+const IP_BOOTSTRAP = 'zigurat-pancho-demo.herokuapp.com/';
 const IP_PEER = '127.0.0.1';
 
 const GENESIS_DATA = {

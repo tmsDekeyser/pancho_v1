@@ -61,11 +61,17 @@ class Miner {
     this.p2pServer.broadcastChain();
     this.p2pServer.broadcastClearTransactions();
 
+    const bcFile =
+      process.env.NODE_ENV === 'production'
+        ? 'blockchainJSON.txt'
+        : `blockchainJSON_${P2P_PORT}.txt`;
+
     fs.writeFile(
-      path.join(__dirname, `../../local/blockchainJSON_${P2P_PORT}.txt`),
+      path.join(__dirname, `../../local/${bcFile}`),
       JSON.stringify(this.blockchain),
       (err) => {
         if (err) throw err;
+        console.log('Writing bc to file from Miner');
       }
     );
   }

@@ -71,10 +71,15 @@ exports.postContactsMain = asyncHandler(async (req, res, next) => {
       addressBook: JSON.stringify(addressBook),
     });
   } else {
+    const walletFile =
+      process.env.NODE_ENV === 'production'
+        ? 'walletJSON.txt'
+        : `walletJSON_${P2P_PORT}.txt`;
+
     walletOptions.addressBook = addressBook;
 
     fs.writeFile(
-      path.join(__dirname, `../local/walletJSON_${P2P_PORT}.txt`),
+      path.join(__dirname, walletFile),
       JSON.stringify(walletOptions),
       (err) => {
         if (err) throw err;

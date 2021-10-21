@@ -19,8 +19,7 @@ class P2pServer {
     this.mempool = mempool;
     this.sockets = [];
     //Here we should check if we are the bootstrapping server or not.
-    //When not in local dev, the below check will not work
-    this.peers = P2P_PORT === 5001 ? [] : [`ws://${IP_BOOTSTRAP}:5001`];
+    this.peers = process.env.PEER ? [`ws://${IP_BOOTSTRAP}`] : [];
   }
 
   listen() {
@@ -56,7 +55,7 @@ class P2pServer {
   }
 
   connectToBootstrap() {
-    if (this.peers[0] === `ws://${IP_BOOTSTRAP}:5001`) {
+    if (this.peers[0] === `ws://${IP_BOOTSTRAP}`) {
       const socket = new Websocket(this.peers[0]);
       //This onOpen envent listener is when we connect to the bootstrapping Server as the client
       socket.on('open', () => {
@@ -68,7 +67,7 @@ class P2pServer {
         //when bootstrap server goes down
         console.log('Closing client connection to bootstrap: ' + socket._url);
         console.log('Bootstrap server down, follow status and re-connect'.red);
-        this.onClosePeerSocket(socket, `ws://${IP_BOOTSTRAP}:5001`);
+        this.onClosePeerSocket(socket, `ws://${IP_BOOTSTRAP}`);
       });
     }
   }

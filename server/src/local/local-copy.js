@@ -12,21 +12,31 @@ const P2P_PORT = process.env.P2P_PORT || 5001;
 //On startup, we will either create a new blockchain or
 //the one in storage, provided it is valid (checked by replaceChain fn)
 const bc = new Blockchain();
-const bcFromFile = JSON.parse(
-  fs.readFileSync(path.join(__dirname, `blockchainJSON_${P2P_PORT}.txt`))
-);
+const bcFile =
+  process.env.NODE_ENV === 'production'
+    ? 'blockchainJSON.txt'
+    : `blockchainJSON_${P2P_PORT}.txt`;
+
+const bcFromFile = JSON.parse(fs.readFileSync(path.join(__dirname, bcFile)));
 
 bc.replaceChain(bcFromFile.chain);
 
-let walletFromFileOptions;
+//Similarly, on startup we will check if there is a local file
+//storing the options needed to recreate a wallet instance,
+//i.e. the private and public keys, and the addressbook
+//This is to make sure the node has the same address and keypair on every startup
 
-console.log('Triggered reading');
+let walletFromFileOptions;
+const walletFile =
+  process.env.NODE_ENV === 'production'
+    ? 'walletJSON.txt'
+    : `walletJSON_${P2P_PORT}.txt`;
+
 walletFromFileOptions = JSON.parse(
-  fs.readFileSync(path.join(__dirname, `walletJSON_${P2P_PORT}.txt`))
+  fs.readFileSync(path.join(__dirname, walletFile))
 );
 
-if (!walletFromFileOptions.addressBook) {
-  console.log('triggered writing');
+if (!walletFromFileOptions.priv) {
   const wallet = new Wallet({ priv: null, pub: null, addressBook: {} }, bc);
 
   walletFromFileOptions = {
@@ -36,7 +46,7 @@ if (!walletFromFileOptions.addressBook) {
   };
 
   fs.writeFile(
-    path.join(__dirname, `walletJSON_${P2P_PORT}.txt`),
+    path.join(__dirname, walletFile),
     JSON.stringify(walletFromFileOptions),
     (err) => {
       if (err) throw err;
@@ -45,13 +55,6 @@ if (!walletFromFileOptions.addressBook) {
 }
 
 const walletOptions = walletFromFileOptions;
-// const walletOptions = process.env.PEER
-//   ? walletFromFileOptions
-//   : {
-//       priv: null,
-//       pub: null,
-//       addressBook: {},
-//     };
 
 const wallet = new Wallet(
   {

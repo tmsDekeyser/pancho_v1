@@ -38,7 +38,6 @@ class Transaction {
       this.outputs[recipient] = amount;
       this.outputs[senderWallet.address] -= amount;
     }
-    // Do I return this?
   }
 
   static verifyTx(tx, bc) {
