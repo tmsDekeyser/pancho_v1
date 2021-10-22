@@ -33,7 +33,7 @@ app.use('/api/v0/wallet', walletRoutes);
 app.use('/api/v0/p2p', p2pRoutes);
 app.use('/api/v0/auth', authRoutes);
 
-const HTTP_PORT = process.env.HTTP_PORT || 3001;
+const PORT = process.env.PORT || 3001;
 
 if (process.env.NODE_ENV === 'production') {
   console.log(process.env.NODE_ENV);
@@ -50,8 +50,14 @@ app.use(errorHandler);
 
 //listening to servers
 
-app.listen(HTTP_PORT, () => {
-  console.log(`Server running on port ${HTTP_PORT}`.yellow);
+const wsServer = p2pServer.startup();
+
+const server = app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`.yellow);
 });
 
-p2pServer.listen();
+server.on('upgrade', (request, socket, head) => {
+  wsServer.handleUpgrade(request, socket, head, (socket) => {
+    wsServer.emit('connection', socket, request);
+  });
+});

@@ -8,7 +8,7 @@ const DividendTx = require('./dividend-transaction');
 const RewardTx = require('./reward-transaction');
 const BlockExplorer = require('../blockchain/block-explorer');
 
-const P2P_PORT = process.env.P2P_PORT || 5001;
+const PORT = process.env.PORT || 3001;
 
 class Miner {
   constructor({ blockchain, wallet, mempool, p2pServer }) {
@@ -64,7 +64,7 @@ class Miner {
     const bcFile =
       process.env.NODE_ENV === 'production'
         ? 'blockchainJSON.txt'
-        : `blockchainJSON_${P2P_PORT}.txt`;
+        : `blockchainJSON_${PORT}.txt`;
 
     fs.writeFile(
       path.join(__dirname, `../../local/${bcFile}`),

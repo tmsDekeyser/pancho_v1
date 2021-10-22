@@ -6,7 +6,7 @@ const BlockExplorer = require('../models/blockchain/block-explorer');
 const User = require('../models/users/User');
 
 const { bc, walletOptions } = require('../local/local-copy');
-const P2P_PORT = process.env.P2P_PORT || 5001;
+const PORT = process.env.PORT || 3001;
 
 //helper functions
 
@@ -74,7 +74,7 @@ exports.postContactsMain = asyncHandler(async (req, res, next) => {
     const walletFile =
       process.env.NODE_ENV === 'production'
         ? 'walletJSON.txt'
-        : `walletJSON_${P2P_PORT}.txt`;
+        : `walletJSON_${PORT}.txt`;
 
     walletOptions.addressBook = addressBook;
 
