@@ -13,7 +13,7 @@
     "dev-client": "npm run dev-client --prefix client",
     "build": "npm run build-client --prefix client",
     "dev": "npm run dev-server & npm run dev-client",
-    "dev-peer": "npm run dev-peer & npm run dev-client",
+    "dev-peer": "npm run dev-peer --prefix server",
     "start": "npm run build && NODE_ENV=production npm run server",
     "start-peer": "npm run build && NODE_ENV=production npm run peer"
   },
