@@ -5,9 +5,11 @@
   "main": "src/app.js",
   "scripts": {
     "server": "node src/app.js",
-    "dev-server": "nodemon src/app.js",
+    "dev-server": "NODE_ENV=development nodemon src/app.js",
     "peer": "PORT=3002 PEER=true node src/app.js",
-    "peer2": "PORT=3003 PEER=true node src/app.js"
+    "dev-peer": "NODE_ENV=development PORT=3002 PEER=true nodemon src/app.js",
+    "peer2": "PORT=3003 PEER=true node src/app.js",
+    "dev-peer2": "NODE_ENV=development PORT=3003 PEER=true nodemon src/app.js"
   },
   "repository": {
     "type": "git",

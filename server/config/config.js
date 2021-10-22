@@ -1,4 +1,4 @@
-const DIFFICULTY = 3;
+const DIFFICULTY = 4;
 
 const STARTING_BALANCE = 100;
 const DIVIDEND = 20;
@@ -8,12 +8,14 @@ const REWARD_PTX = 2;
 
 const NOM_MULTIPLIER = 3;
 
+let IP_BOOTSTRAP, IP_PEER;
+
 if (process.env.NODE_ENV === 'development') {
-  const IP_BOOTSTRAP = '127.0.0.1';
-  const IP_PEER = '127.0.0.1';
+  IP_BOOTSTRAP = '127.0.0.1';
+  IP_PEER = '127.0.0.1';
 } else {
-  const IP_BOOTSTRAP = 'zigurat-pancho-demo.herokuapp.com';
-  const IP_PEER = '192.168.100.39'; //Your own IP address
+  IP_BOOTSTRAP = 'zigurat-pancho-demo.herokuapp.com';
+  IP_PEER = '127.0.0.1'; //Your own IP address
 }
 
 const GENESIS_DATA = {
