@@ -7,7 +7,7 @@ const Wallet = require('../models/wallet');
 const Mempool = require('../models/wallet/mempool');
 const Miner = require('../models/miner');
 
-const PORT = process.env.HTTP_PORT || 3001;
+const PORT = process.env.PORT || 3001;
 
 //On startup, we will either create a new blockchain or
 //the one in storage, provided it is valid (checked by replaceChain fn)
