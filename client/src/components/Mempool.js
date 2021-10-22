@@ -92,7 +92,7 @@ class Mempool extends Component {
 
   mineBlock = () => {
     const token = localStorage.getItem('token');
-    fetch(`http://localhost:3001/api/v0/p2p/mine`, {
+    fetch(`${API_URL}/api/${API_VERSION}/p2p/mine`, {
       method: 'POST',
       headers: {
         authorization: `Bearer ${token}`,
