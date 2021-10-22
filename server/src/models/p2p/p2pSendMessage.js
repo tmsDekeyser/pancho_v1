@@ -7,7 +7,7 @@ const MESSAGE_TYPES = {
   peers: 'PEERS',
 };
 
-const P2P_PORT = process.env.P2P_PORT || 5001;
+const PORT = process.env.PORT || 3001;
 
 //Sending messages
 
@@ -31,7 +31,7 @@ function sendAddress(socket) {
     JSON.stringify({
       type: MESSAGE_TYPES.address,
       address: ip,
-      port: P2P_PORT,
+      port: PORT,
     })
   );
 }

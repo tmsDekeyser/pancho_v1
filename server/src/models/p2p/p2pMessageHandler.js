@@ -14,18 +14,19 @@ const MESSAGE_TYPES = {
 const { sendPeers } = require('./p2pSendMessage');
 
 const { IP_PEER } = require('../../../config/config');
-const P2P_PORT = process.env.P2P_PORT || 5001;
+const PORT = process.env.PORT || 3001;
 
 function messageHandler(p2pServer, socket) {
   socket.on('message', (message) => {
     const data = JSON.parse(message);
     console.log('data:', data);
+
     switch (data.type) {
       case MESSAGE_TYPES.chain:
         p2pServer.blockchain.replaceChain(data.chain);
         //now you are also writing when the chain is not valid
         fs.writeFile(
-          path.join(__dirname, `../../local/blockchainJSON_${P2P_PORT}.txt`),
+          path.join(__dirname, `../../local/blockchainJSON_${PORT}.txt`),
           JSON.stringify(p2pServer.blockchain),
           (err) => {
             if (err) throw err;
@@ -63,7 +64,7 @@ function messageHandler(p2pServer, socket) {
         const newPeers = data.peers.filter((peer) => {
           return (
             !p2pServer.peers.find((knownPeer) => knownPeer === peer) &&
-            peer !== `ws://${IP_PEER}:${P2P_PORT}`
+            peer !== `ws://${IP_PEER}:${PORT}`
           );
         });
 

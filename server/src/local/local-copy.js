@@ -7,7 +7,7 @@ const Wallet = require('../models/wallet');
 const Mempool = require('../models/wallet/mempool');
 const Miner = require('../models/miner');
 
-const P2P_PORT = process.env.P2P_PORT || 5001;
+const PORT = process.env.HTTP_PORT || 3001;
 
 //On startup, we will either create a new blockchain or
 //the one in storage, provided it is valid (checked by replaceChain fn)
@@ -15,7 +15,7 @@ const bc = new Blockchain();
 const bcFile =
   process.env.NODE_ENV === 'production'
     ? 'blockchainJSON.txt'
-    : `blockchainJSON_${P2P_PORT}.txt`;
+    : `blockchainJSON_${PORT}.txt`;
 
 const bcFromFile = JSON.parse(fs.readFileSync(path.join(__dirname, bcFile)));
 
@@ -30,7 +30,7 @@ let walletFromFileOptions;
 const walletFile =
   process.env.NODE_ENV === 'production'
     ? 'walletJSON.txt'
-    : `walletJSON_${P2P_PORT}.txt`;
+    : `walletJSON_${PORT}.txt`;
 
 walletFromFileOptions = JSON.parse(
   fs.readFileSync(path.join(__dirname, walletFile))

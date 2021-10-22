@@ -11,7 +11,11 @@ const {
 } = require('./p2pBroadcast');
 
 const { IP_BOOTSTRAP } = require('../../../config/config');
-const P2P_PORT = process.env.P2P_PORT || 5001;
+const WS_BOOTSTRAP =
+  process.env.NODE_ENV === 'production'
+    ? `ws://${IP_BOOTSTRAP}`
+    : `ws://${IP_BOOTSTRAP}:3001`;
+// const PORT = process.env.PORT || 3001;
 
 class P2pServer {
   constructor(blockchain, mempool) {
@@ -19,21 +23,23 @@ class P2pServer {
     this.mempool = mempool;
     this.sockets = [];
     //Here we should check if we are the bootstrapping server or not.
-    this.peers = process.env.PEER ? [`ws://${IP_BOOTSTRAP}`] : [];
+    this.peers = process.env.PEER ? [WS_BOOTSTRAP] : [];
   }
 
-  listen() {
-    const server = new Websocket.Server({ port: P2P_PORT });
+  startup() {
+    const wsServer = new Websocket.Server({ noServer: true });
     // Initialise a websocket server
-    server.on('connection', (socket, request) => {
+    wsServer.on('connection', (socket, request) => {
       this.connectSocketAsServer(socket, request);
 
       socket.on('close', () => this.onCloseServerConnection(socket));
     });
-    console.log(`Listening for peer connections on port ${P2P_PORT}`);
+    console.log(`Listening for peer connections`);
 
     //Connect to the Bootstrapping server
     this.connectToBootstrap();
+
+    return wsServer;
   }
 
   //Connecting sockets
@@ -55,7 +61,7 @@ class P2pServer {
   }
 
   connectToBootstrap() {
-    if (this.peers[0] === `ws://${IP_BOOTSTRAP}`) {
+    if (this.peers[0] === WS_BOOTSTRAP) {
       const socket = new Websocket(this.peers[0]);
       //This onOpen envent listener is when we connect to the bootstrapping Server as the client
       socket.on('open', () => {
@@ -67,7 +73,7 @@ class P2pServer {
         //when bootstrap server goes down
         console.log('Closing client connection to bootstrap: ' + socket._url);
         console.log('Bootstrap server down, follow status and re-connect'.red);
-        this.onClosePeerSocket(socket, `ws://${IP_BOOTSTRAP}`);
+        this.onClosePeerSocket(socket, WS_BOOTSTRAP);
       });
     }
   }

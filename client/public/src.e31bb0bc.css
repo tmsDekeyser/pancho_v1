@@ -1,0 +1,149 @@
+/* 
+#343A40 dark from bootstrap
+#CECOFC udemy light purple
+#FFD739
+
+#662483 zigurat purple
+#fcfaff zigurat light purple
+ */
+body {
+  background-color: #fcfaff;
+  color: #662483;
+  text-align: center;
+  font-family: Raleway, sans-serif;
+  font-size: 1.5rem;
+  /* padding-top: 5%; */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.margin-bottoms {
+  margin-bottom: 10%;
+}
+
+h2 {
+  margin: 20px 0px;
+}
+
+.activeNavLink {
+  text-decoration: underline;
+}
+
+.custom-but {
+  margin: 3%;
+  padding: 1%;
+}
+
+.logo {
+  width: 300px;
+}
+
+.wallet-info {
+  width: 70%;
+  word-wrap: break-word;
+  margin: 10px 0px 30px;
+}
+
+#transact-form {
+  width: 100%;
+  align-content: center;
+}
+
+.Blocks {
+  width: 70%;
+}
+
+.block-header {
+  background-color: #222;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  border: 1px solid #222;
+  margin: 10px 10px 0px 10px;
+  width: 100%;
+}
+
+.block-header > div {
+  padding: 15px;
+}
+
+.block-body {
+  background-color: #fff;
+  border: 1px solid #222;
+  margin: 0px 10px 10px;
+  width: 100%;
+}
+
+.blocks-search {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tx-header {
+  background-color: #e9e0ff;
+  /* padding: 1% 0; */
+}
+
+#formLogin,
+#formLogin2,
+#formRegisterU,
+#formRegisterE,
+#formRegisterP,
+#formRegisterP2 {
+  width: 400px;
+}
+
+.contact-card {
+  display: flex;
+  border: 1px solid #222;
+  margin: 5px;
+}
+
+.card-body {
+  padding: 0;
+}
+
+/* .contact-card > p {
+  padding: 20px;
+} */
+
+.logout {
+  font-size: 0.8em;
+  padding-left: 25%;
+}
+
+.badge-container {
+  display: flex;
+  justify-content: center;
+  width: 70%;
+  margin: 30px 0 100px;
+}
+
+#save-contact {
+  width: 50%;
+  margin: 10px 0px 30px;
+}
+
+.tx-flex-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.fifty {
+  width: 45%;
+}
+
+.ten {
+  width: 5%;
+}
+
+.twenty {
+  width: 40%;
+}
+
+
+/*# sourceMappingURL=/src.e31bb0bc.css.map */
