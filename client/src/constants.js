@@ -4,3 +4,5 @@
 export const API_URL = 'http://localhost:3001';
 // export const API_URL = 'https://zigurat-pancho-demo.herokuapp.com'
 export const API_VERSION = 'v0';
+
+export const NO_AUTH = false;

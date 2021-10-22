@@ -3,6 +3,7 @@ import logo from '../assets/zigurat.png';
 import Auth from './Auth/Auth';
 import Wallet from './Wallet/Wallet';
 import Navigation from './Navbar';
+import { NO_AUTH } from '../constants';
 
 class App extends Component {
   constructor() {
@@ -13,7 +14,7 @@ class App extends Component {
   componentDidMount() {
     const token = localStorage.getItem('token');
 
-    if (token) {
+    if (token || NO_AUTH) {
       this.setState({ isAuthenticated: true });
     }
   }

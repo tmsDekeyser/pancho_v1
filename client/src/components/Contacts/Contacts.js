@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import Navigation from '../Navbar';
 import SaveContact from './SaveContact';
 import { ContactList } from './ContactList';
-import { API_URL, API_VERSION } from '../../constants';
+import { API_URL, API_VERSION, NO_AUTH } from '../../constants';
 
 export default class Contacts extends Component {
   constructor() {
@@ -14,7 +14,7 @@ export default class Contacts extends Component {
   componentDidMount() {
     const token = localStorage.getItem('token');
 
-    if (!token) {
+    if (!token && !NO_AUTH) {
       this.setState({ isAuthenticated: false });
     } else {
       fetch(`${API_URL}/api/${API_VERSION}/wallet/contacts`, {
