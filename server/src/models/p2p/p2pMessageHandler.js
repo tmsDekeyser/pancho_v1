@@ -23,16 +23,19 @@ function messageHandler(p2pServer, socket) {
 
     switch (data.type) {
       case MESSAGE_TYPES.chain:
-        p2pServer.blockchain.replaceChain(data.chain);
-        //now you are also writing when the chain is not valid
-        fs.writeFile(
-          path.join(__dirname, `../../local/blockchainJSON_${PORT}.txt`),
-          JSON.stringify(p2pServer.blockchain),
-          (err) => {
-            if (err) throw err;
-            console.log('Writing blockchain to local file');
-          }
-        );
+        const response = p2pServer.blockchain.replaceChain(data.chain);
+
+        if (response !== 'Chain invalid, not replaced') {
+          fs.writeFile(
+            path.join(__dirname, `../../local/blockchainJSON_${PORT}.txt`),
+            JSON.stringify(p2pServer.blockchain),
+            (err) => {
+              if (err) throw err;
+              console.log('Writing blockchain to local file');
+            }
+          );
+        }
+
         break;
       case MESSAGE_TYPES.transaction:
         if (data.transaction.input.type === 'BADGE') {

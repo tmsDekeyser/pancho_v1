@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import { API_URL, API_VERSION } from '../../constants';
+import { API_URL, API_VERSION, NO_AUTH } from '../../constants';
 import { Address } from '../utils/Address';
 
 class Nomination extends Component {
@@ -12,13 +12,19 @@ class Nomination extends Component {
   componentDidMount() {
     const token = localStorage.getItem('token');
 
-    fetch(`${API_URL}/api/${API_VERSION}/auth/me`, {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => this.setState({ userAddress: json.data.keys[1] }));
+    if (token) {
+      fetch(`${API_URL}/api/${API_VERSION}/auth/me`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((json) => this.setState({ userAddress: json.data.keys[1] }));
+    } else if (NO_AUTH) {
+      fetch(`${API_URL}/api/${API_VERSION}/wallet/wallet-info`)
+        .then((response) => response.json())
+        .then((data) => this.setState({ userAddress: data.address }));
+    }
   }
 
   decideNomination = (accept) => {
