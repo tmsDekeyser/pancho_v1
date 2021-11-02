@@ -12,6 +12,10 @@ Different modes of operation are possible, based on possible combinations of the
 
 For all modes, first clone the repository and run `npm install` from the root directory.
 
+Demo Videos:
+https://www.loom.com/share/32573c38868f4def91dfd7ca31081fb4
+https://www.loom.com/share/562c32c6c3e9491d9d3fb40c41bdc1bc
+
 # Bootstrapping server in production
 
 Run the `npm start` command, this will run the application with `NODE_ENV = production`and `PEER = false`.
